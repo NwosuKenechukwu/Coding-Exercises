@@ -6,13 +6,11 @@ function doors(n) {
   for (let door = 0; door < nth; door++) {
     doorStatus.push("closed");
   }
-  console.log(doorStatus);
 
   // Declare student variable and loop to fill in n Students into array
   let students = [];
-  for (let student = 0; student < nth; student++) {
-    students.push(student + 1);
-    console.log(students);
+  for (let student = 0; student < nth + 1; student++) {
+    students.push(student);
 
     // If student is the first in, then open all doors
     if (student + 1 === 1) {
@@ -20,29 +18,30 @@ function doors(n) {
         doorStatus[door] = "open";
       }
 
-      // if student is
-    } else if (doorStatus[student] === "open") {
-      let door = 1;
+      // if door is closed and nth student can open it, open door and vice versa
+    } else {
+      let door = 0;
       while (door < nth) {
-        if ((door + 1) % (student + 1) === 0) {
+        if (doorStatus[door] === "closed" && (door + 1) % (student + 1) === 0) {
+          doorStatus[door] = "open";
+        } else if (
+          doorStatus[door] === "open" &&
+          (door + 1) % (student + 1) === 0
+        ) {
           doorStatus[door] = "closed";
         }
         door++;
       }
-    } else {
-      let door = 1;
-      while (door < nth) {
-        if ((door + 1) % (student + 1) === 0) {
-          doorStatus[door] = "open";
-        }
-        door++;
-      }
     }
-    console.log(doorStatus);
+  }
+  let openDoors = [];
+  let open = 0;
+  while (open < doorStatus.length) {
+    if (doorStatus[open] === "open") openDoors.push(doorStatus[open]);
+    open++;
   }
 
-  // console.log(students);
-  // return doorStatus;
+  return openDoors.length;
 }
 
-console.log(doors(50));
+console.log(doors(5));
